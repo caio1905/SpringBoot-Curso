@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.caio.api.domain.Categoria;
 import com.caio.api.repositories.CategoriaRepository;
+import com.caio.api.util.exceptions.ObjetoNaoEncontradoException;
+
 
 @Service
 public class CategoriaService {
@@ -17,9 +19,10 @@ public class CategoriaService {
 	public Categoria buscar(Integer umId) {
 		
 		Optional<Categoria> obj = null;
-		obj = repo.findById(umId);
+		obj = repo.findById(umId); 
 		
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException("Objeto não encontrado Id:" + umId + ", Tipo: " + 
+																	Categoria.class.getName()));
 		
 	}
 }
